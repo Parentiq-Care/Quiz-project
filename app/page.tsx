@@ -578,6 +578,7 @@ export default function Home() {
   );
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Personality[]>([]);
+  const [shareText, setShareText] = useState("");
 
   const handleStart = () => {
     setScreen("quiz");
@@ -768,9 +769,27 @@ export default function Home() {
             })}
           </div>
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex items-center justify-center gap-3">
             <button className="restart-btn" onClick={handleRestart}>
               Take Quiz Again
+            </button>
+            <button
+              className="restart-btn"
+              style={{ background: topResult.color }}
+              onClick={() => {
+                const text = `I'm a ${topResult.name}! ☕ My coffee personality is ${topResult.coffee}. "${topResult.tagline}" — Take the quiz and find out yours!`;
+                const url = window.location.href;
+                if (navigator.share) {
+                  navigator.share({ title: "My Coffee Personality", text, url }).catch(() => {});
+                } else {
+                  navigator.clipboard.writeText(`${text}\n${url}`).then(() => {
+                    setShareText("Copied!");
+                    setTimeout(() => setShareText(""), 2000);
+                  });
+                }
+              }}
+            >
+              {shareText || "Share Result"}
             </button>
           </div>
         </div>
