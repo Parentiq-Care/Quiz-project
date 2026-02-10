@@ -113,6 +113,22 @@ const personalityInfo: Record<
 const personalityIllustrations: Record<Personality, (size: number) => React.ReactNode> = {
   bold: (size) => (
     <svg width={size} height={size} viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @keyframes b-glow { 0%,100% { r: 50; opacity: 1; } 50% { r: 55; opacity: 0.7; } }
+        @keyframes b-bolt { 0%,100% { opacity: 1; } 40% { opacity: 0.6; } 50% { opacity: 1; } 70% { opacity: 0.4; } 80% { opacity: 1; } }
+        @keyframes b-steam { 0% { transform: translateY(0); opacity: 0.35; } 100% { transform: translateY(-8px); opacity: 0; } }
+        @keyframes b-twinkle { 0%,100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 0.2; transform: scale(0.5); } }
+        .b-glow { animation: b-glow 2s ease-in-out infinite; }
+        .b-boltL { animation: b-bolt 3s ease-in-out infinite; }
+        .b-boltR { animation: b-bolt 3s ease-in-out infinite 0.5s; }
+        .b-boltC { animation: b-bolt 3s ease-in-out infinite 1s; }
+        .b-steam1 { animation: b-steam 2.5s ease-out infinite; }
+        .b-steam2 { animation: b-steam 2.5s ease-out infinite 0.8s; }
+        .b-steam3 { animation: b-steam 2.5s ease-out infinite 1.6s; }
+        .b-twinkle1 { animation: b-twinkle 1.5s ease-in-out infinite; transform-origin: 18px 21px; }
+        .b-twinkle2 { animation: b-twinkle 1.5s ease-in-out infinite 0.5s; transform-origin: 105px 7px; }
+        .b-twinkle3 { animation: b-twinkle 1.5s ease-in-out infinite 1s; transform-origin: 22px 43.5px; }
+      `}</style>
       <defs>
         <linearGradient id="boldCupGrad" x1="30" y1="50" x2="95" y2="110" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#e8c96e" />
@@ -136,7 +152,7 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
         </filter>
       </defs>
       {/* Energy glow behind cup */}
-      <circle cx="65" cy="55" r="50" fill="url(#boldGlow)" />
+      <circle cx="65" cy="55" r="50" fill="url(#boldGlow)" className="b-glow" />
       {/* Saucer shadow */}
       <ellipse cx="62" cy="116" rx="42" ry="6" fill="#00000010" />
       {/* Saucer bottom */}
@@ -167,30 +183,34 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
       {/* Handle inner shadow */}
       <path d="M94 67 Q106 66 107 76 Q107 88 94 88" stroke="#9a7a2e" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.3" />
       {/* Lightning bolt left - larger with glow */}
-      <polygon points="35,8 26,30 36,27 29,46 48,22 38,25 44,8" fill="#FFD700" stroke="#e6b800" strokeWidth="1.5" filter="url(#boltGlow)" />
-      <polygon points="35,8 26,30 36,27 29,46 48,22 38,25 44,8" fill="url(#boltGradL)" />
+      <g className="b-boltL">
+        <polygon points="35,8 26,30 36,27 29,46 48,22 38,25 44,8" fill="#FFD700" stroke="#e6b800" strokeWidth="1.5" filter="url(#boltGlow)" />
+        <polygon points="35,8 26,30 36,27 29,46 48,22 38,25 44,8" fill="url(#boltGradL)" />
+      </g>
       {/* Lightning bolt right - larger with glow */}
-      <polygon points="85,4 76,26 86,23 79,42 98,18 88,21 94,4" fill="#FFD700" stroke="#e6b800" strokeWidth="1.5" filter="url(#boltGlow)" />
-      <polygon points="85,4 76,26 86,23 79,42 98,18 88,21 94,4" fill="url(#boltGradR)" />
+      <g className="b-boltR">
+        <polygon points="85,4 76,26 86,23 79,42 98,18 88,21 94,4" fill="#FFD700" stroke="#e6b800" strokeWidth="1.5" filter="url(#boltGlow)" />
+        <polygon points="85,4 76,26 86,23 79,42 98,18 88,21 94,4" fill="url(#boltGradR)" />
+      </g>
       {/* Mini bolt center */}
-      <polygon points="60,18 56,28 61,27 58,34 66,24 62,25 64,18" fill="#FFD700" opacity="0.7" />
+      <polygon points="60,18 56,28 61,27 58,34 66,24 62,25 64,18" fill="#FFD700" opacity="0.7" className="b-boltC" />
       {/* Sparkle stars */}
-      <g opacity="0.8">
+      <g className="b-twinkle1">
         <line x1="18" y1="25" x2="18" y2="17" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
         <line x1="14" y1="21" x2="22" y2="21" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
       </g>
-      <g opacity="0.6">
+      <g className="b-twinkle2">
         <line x1="105" y1="10" x2="105" y2="4" stroke="#FFD700" strokeWidth="1" strokeLinecap="round" />
         <line x1="102" y1="7" x2="108" y2="7" stroke="#FFD700" strokeWidth="1" strokeLinecap="round" />
       </g>
-      <g opacity="0.5">
+      <g className="b-twinkle3">
         <line x1="22" y1="46" x2="22" y2="41" stroke="#FFD700" strokeWidth="1" strokeLinecap="round" />
         <line x1="19.5" y1="43.5" x2="24.5" y2="43.5" stroke="#FFD700" strokeWidth="1" strokeLinecap="round" />
       </g>
       {/* Wavy steam lines */}
-      <path d="M48 42 Q46 32 50 24 Q52 18 49 10" stroke="#c8a455" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" />
-      <path d="M60 40 Q58 30 62 22 Q64 16 61 8" stroke="#c8a455" strokeWidth="2.5" fill="none" opacity="0.4" strokeLinecap="round" />
-      <path d="M72 42 Q70 32 74 24 Q76 18 73 10" stroke="#c8a455" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" />
+      <path d="M48 42 Q46 32 50 24 Q52 18 49 10" stroke="#c8a455" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" className="b-steam1" />
+      <path d="M60 40 Q58 30 62 22 Q64 16 61 8" stroke="#c8a455" strokeWidth="2.5" fill="none" opacity="0.4" strokeLinecap="round" className="b-steam2" />
+      <path d="M72 42 Q70 32 74 24 Q76 18 73 10" stroke="#c8a455" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" className="b-steam3" />
       {/* Coffee beans scattered */}
       <ellipse cx="16" cy="105" rx="4" ry="3" fill="#5c3a1e" transform="rotate(-20 16 105)" />
       <line x1="14" y1="104" x2="18" y2="106" stroke="#3b2514" strokeWidth="0.8" />
@@ -210,6 +230,22 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
   ),
   sweet: (size) => (
     <svg width={size} height={size} viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @keyframes s-float { 0% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-6px); opacity: 1; } 100% { transform: translateY(0); opacity: 0.9; } }
+        @keyframes s-float2 { 0% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-5px); opacity: 0.9; } 100% { transform: translateY(0); opacity: 0.7; } }
+        @keyframes s-wobble { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(3deg); } 75% { transform: rotate(-3deg); } }
+        @keyframes s-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        @keyframes s-twinkle { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .s-heart1 { animation: s-float 3s ease-in-out infinite; }
+        .s-heart2 { animation: s-float2 3s ease-in-out infinite 0.8s; }
+        .s-heart3 { animation: s-float 4s ease-in-out infinite 1.5s; }
+        .s-heart4 { animation: s-float2 3.5s ease-in-out infinite 0.4s; }
+        .s-cherry { animation: s-wobble 2s ease-in-out infinite; transform-origin: 61px 18px; }
+        .s-cream { animation: s-pulse 3s ease-in-out infinite; transform-origin: 62px 42px; }
+        .s-sprinkle1 { animation: s-twinkle 2s ease-in-out infinite; }
+        .s-sprinkle2 { animation: s-twinkle 2s ease-in-out infinite 0.6s; }
+        .s-sprinkle3 { animation: s-twinkle 2s ease-in-out infinite 1.2s; }
+      `}</style>
       <defs>
         <linearGradient id="sweetCupGrad" x1="35" y1="48" x2="90" y2="118" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#f8dde1" />
@@ -271,31 +307,32 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
       <circle cx="50" cy="42" r="2" fill="white" opacity="0.8" />
       <circle cx="72" cy="42" r="1.5" fill="white" opacity="0.7" />
       {/* Cherry on top */}
-      <circle cx="61" cy="15" r="5" fill="#e84060" />
-      <circle cx="61" cy="15" r="5" fill="url(#cherryGrad)" />
-      <ellipse cx="59.5" cy="13.5" rx="2" ry="1.5" fill="white" opacity="0.4" />
-      {/* Cherry stem */}
-      <path d="M61 10 Q63 5 67 4" stroke="#4a8030" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-      <ellipse cx="68" cy="4" rx="3" ry="1.5" fill="#5a9940" transform="rotate(-10 68 4)" />
+      <g className="s-cherry">
+        <circle cx="61" cy="15" r="5" fill="#e84060" />
+        <circle cx="61" cy="15" r="5" fill="url(#cherryGrad)" />
+        <ellipse cx="59.5" cy="13.5" rx="2" ry="1.5" fill="white" opacity="0.4" />
+        {/* Cherry stem */}
+        <path d="M61 10 Q63 5 67 4" stroke="#4a8030" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+        <ellipse cx="68" cy="4" rx="3" ry="1.5" fill="#5a9940" transform="rotate(-10 68 4)" />
+      </g>
       {/* Caramel drizzle on cream */}
       <path d="M46 46 Q50 42 54 46 Q58 42 62 46 Q66 42 70 46 Q74 42 78 46" stroke="#d4944a" strokeWidth="1.5" fill="none" opacity="0.7" strokeLinecap="round" />
       {/* Sprinkles on cream - more of them */}
-      <rect x="50" y="39" width="5" height="1.8" rx="0.9" fill="#FFB6C1" transform="rotate(-30 52 40)" />
-      <rect x="66" y="38" width="5" height="1.8" rx="0.9" fill="#87CEEB" transform="rotate(25 68 39)" />
-      <rect x="57" y="36" width="5" height="1.8" rx="0.9" fill="#FFD700" transform="rotate(-10 59 37)" />
-      <rect x="72" y="42" width="4" height="1.5" rx="0.75" fill="#98FB98" transform="rotate(40 74 43)" />
-      <rect x="46" y="43" width="4" height="1.5" rx="0.75" fill="#DDA0DD" transform="rotate(-45 48 44)" />
-      <rect x="62" y="34" width="4" height="1.5" rx="0.75" fill="#FF6347" transform="rotate(15 64 35)" />
+      <rect x="50" y="39" width="5" height="1.8" rx="0.9" fill="#FFB6C1" transform="rotate(-30 52 40)" className="s-sprinkle1" />
+      <rect x="66" y="38" width="5" height="1.8" rx="0.9" fill="#87CEEB" transform="rotate(25 68 39)" className="s-sprinkle2" />
+      <rect x="57" y="36" width="5" height="1.8" rx="0.9" fill="#FFD700" transform="rotate(-10 59 37)" className="s-sprinkle3" />
+      <rect x="72" y="42" width="4" height="1.5" rx="0.75" fill="#98FB98" transform="rotate(40 74 43)" className="s-sprinkle1" />
+      <rect x="46" y="43" width="4" height="1.5" rx="0.75" fill="#DDA0DD" transform="rotate(-45 48 44)" className="s-sprinkle2" />
+      <rect x="62" y="34" width="4" height="1.5" rx="0.75" fill="#FF6347" transform="rotate(15 64 35)" className="s-sprinkle3" />
       {/* Floating hearts */}
-      <g filter="url(#heartGlow)">
+      <g filter="url(#heartGlow)" className="s-heart1">
         <path d="M22 28 C22 24 16 22 16 27 C16 32 22 36 22 36 C22 36 28 32 28 27 C28 22 22 24 22 28 Z" fill="#d4848c" />
-        <path d="M20 26" fill="white" opacity="0.4" />
       </g>
-      <g filter="url(#heartGlow)">
+      <g filter="url(#heartGlow)" className="s-heart2">
         <path d="M100 20 C100 17 96 15.5 96 19 C96 22.5 100 25 100 25 C100 25 104 22.5 104 19 C104 15.5 100 17 100 20 Z" fill="#e8a0a8" />
       </g>
-      <path d="M112 38 C112 36 109.5 35 109.5 37.5 C109.5 40 112 42 112 42 C112 42 114.5 40 114.5 37.5 C114.5 35 112 36 112 38 Z" fill="#f0b8c0" opacity="0.6" />
-      <path d="M16 48 C16 46.5 14 45.8 14 47.5 C14 49.2 16 50.8 16 50.8 C16 50.8 18 49.2 18 47.5 C18 45.8 16 46.5 16 48 Z" fill="#f0b8c0" opacity="0.5" />
+      <path d="M112 38 C112 36 109.5 35 109.5 37.5 C109.5 40 112 42 112 42 C112 42 114.5 40 114.5 37.5 C114.5 35 112 36 112 38 Z" fill="#f0b8c0" className="s-heart3" />
+      <path d="M16 48 C16 46.5 14 45.8 14 47.5 C14 49.2 16 50.8 16 50.8 C16 50.8 18 49.2 18 47.5 C18 45.8 16 46.5 16 48 Z" fill="#f0b8c0" className="s-heart4" />
       {/* Straw */}
       <rect x="76" y="8" width="3" height="48" rx="1.5" fill="#ff8fa0" transform="rotate(8 77 32)" />
       <rect x="76" y="8" width="3" height="48" rx="1.5" fill="url(#strawGrad)" transform="rotate(8 77 32)" />
@@ -319,6 +356,34 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
   ),
   social: (size) => (
     <svg width={size} height={size} viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @keyframes so-sparkle { 0%,100% { r: 4; opacity: 0.9; } 50% { r: 6; opacity: 1; } }
+        @keyframes so-sparkleInner { 0%,100% { r: 2; } 50% { r: 3; } }
+        @keyframes so-ray { 0%,100% { opacity: 0.8; } 50% { opacity: 0.3; } }
+        @keyframes so-dot { 0%,100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
+        @keyframes so-confetti { 0% { transform: translateY(0) rotate(0deg); opacity: 0.7; } 100% { transform: translateY(8px) rotate(15deg); opacity: 0.2; } }
+        @keyframes so-bubble { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        @keyframes so-steam { 0% { transform: translateY(0); opacity: 0.35; } 100% { transform: translateY(-8px); opacity: 0; } }
+        .so-sparkle { animation: so-sparkle 1.5s ease-in-out infinite; }
+        .so-sparkleI { animation: so-sparkleInner 1.5s ease-in-out infinite; }
+        .so-ray1 { animation: so-ray 1.5s ease-in-out infinite; }
+        .so-ray2 { animation: so-ray 1.5s ease-in-out infinite 0.3s; }
+        .so-ray3 { animation: so-ray 1.5s ease-in-out infinite 0.6s; }
+        .so-dot1 { animation: so-dot 2s ease-in-out infinite; transform-origin: 52px 32px; }
+        .so-dot2 { animation: so-dot 2s ease-in-out infinite 0.5s; transform-origin: 68px 32px; }
+        .so-dot3 { animation: so-dot 2s ease-in-out infinite 1s; transform-origin: 45px 42px; }
+        .so-dot4 { animation: so-dot 2s ease-in-out infinite 1.5s; transform-origin: 75px 42px; }
+        .so-conf1 { animation: so-confetti 3s ease-in infinite; }
+        .so-conf2 { animation: so-confetti 3s ease-in infinite 0.7s; }
+        .so-conf3 { animation: so-confetti 3s ease-in infinite 1.4s; }
+        .so-conf4 { animation: so-confetti 3s ease-in infinite 2.1s; }
+        .so-bubbleL { animation: so-bubble 2s ease-in-out infinite; }
+        .so-bubbleR { animation: so-bubble 2s ease-in-out infinite 1s; }
+        .so-steam1 { animation: so-steam 2.5s ease-out infinite; }
+        .so-steam2 { animation: so-steam 2.5s ease-out infinite 0.6s; }
+        .so-steam3 { animation: so-steam 2.5s ease-out infinite 1.2s; }
+        .so-steam4 { animation: so-steam 2.5s ease-out infinite 1.8s; }
+      `}</style>
       <defs>
         <linearGradient id="socialCup1" x1="15" y1="52" x2="62" y2="110" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#dcc4ec" />
@@ -343,10 +408,10 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
         </filter>
       </defs>
       {/* Confetti / celebration bits */}
-      <rect x="20" y="10" width="5" height="2" rx="1" fill="#FFD700" opacity="0.7" transform="rotate(-30 22 11)" />
-      <rect x="110" y="15" width="5" height="2" rx="1" fill="#c4a8d4" opacity="0.7" transform="rotate(20 112 16)" />
-      <rect x="30" y="20" width="4" height="1.5" rx="0.75" fill="#ff8fa0" opacity="0.6" transform="rotate(45 32 21)" />
-      <rect x="100" y="8" width="4" height="1.5" rx="0.75" fill="#87CEEB" opacity="0.6" transform="rotate(-25 102 9)" />
+      <rect x="20" y="10" width="5" height="2" rx="1" fill="#FFD700" opacity="0.7" transform="rotate(-30 22 11)" className="so-conf1" />
+      <rect x="110" y="15" width="5" height="2" rx="1" fill="#c4a8d4" opacity="0.7" transform="rotate(20 112 16)" className="so-conf2" />
+      <rect x="30" y="20" width="4" height="1.5" rx="0.75" fill="#ff8fa0" opacity="0.6" transform="rotate(45 32 21)" className="so-conf3" />
+      <rect x="100" y="8" width="4" height="1.5" rx="0.75" fill="#87CEEB" opacity="0.6" transform="rotate(-25 102 9)" className="so-conf4" />
       <circle cx="15" cy="30" r="2" fill="#FFD700" opacity="0.4" />
       <circle cx="125" cy="28" r="1.5" fill="#ff8fa0" opacity="0.4" />
       <circle cx="70" cy="6" r="1.5" fill="#b898c8" opacity="0.5" />
@@ -391,36 +456,36 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
       </g>
       {/* Big clink sparkle burst */}
       <g filter="url(#sparkleGlow)">
-        <circle cx="60" cy="44" r="4" fill="#FFD700" opacity="0.9" />
-        <circle cx="60" cy="44" r="2" fill="white" opacity="0.8" />
+        <circle cx="60" cy="44" r="4" fill="#FFD700" opacity="0.9" className="so-sparkle" />
+        <circle cx="60" cy="44" r="2" fill="white" opacity="0.8" className="so-sparkleI" />
       </g>
       {/* Sparkle rays */}
-      <line x1="60" y1="30" x2="60" y2="36" stroke="#FFD700" strokeWidth="2" opacity="0.8" strokeLinecap="round" />
-      <line x1="60" y1="52" x2="60" y2="56" stroke="#FFD700" strokeWidth="1.5" opacity="0.5" strokeLinecap="round" />
-      <line x1="48" y1="36" x2="52" y2="40" stroke="#FFD700" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
-      <line x1="72" y1="36" x2="68" y2="40" stroke="#FFD700" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
-      <line x1="46" y1="46" x2="50" y2="45" stroke="#FFD700" strokeWidth="1.5" opacity="0.5" strokeLinecap="round" />
-      <line x1="74" y1="46" x2="70" y2="45" stroke="#FFD700" strokeWidth="1.5" opacity="0.5" strokeLinecap="round" />
+      <line x1="60" y1="30" x2="60" y2="36" stroke="#FFD700" strokeWidth="2" opacity="0.8" strokeLinecap="round" className="so-ray1" />
+      <line x1="60" y1="52" x2="60" y2="56" stroke="#FFD700" strokeWidth="1.5" opacity="0.5" strokeLinecap="round" className="so-ray2" />
+      <line x1="48" y1="36" x2="52" y2="40" stroke="#FFD700" strokeWidth="2" opacity="0.7" strokeLinecap="round" className="so-ray2" />
+      <line x1="72" y1="36" x2="68" y2="40" stroke="#FFD700" strokeWidth="2" opacity="0.7" strokeLinecap="round" className="so-ray2" />
+      <line x1="46" y1="46" x2="50" y2="45" stroke="#FFD700" strokeWidth="1.5" opacity="0.5" strokeLinecap="round" className="so-ray3" />
+      <line x1="74" y1="46" x2="70" y2="45" stroke="#FFD700" strokeWidth="1.5" opacity="0.5" strokeLinecap="round" className="so-ray3" />
       {/* Smaller sparkle dots */}
-      <circle cx="52" cy="32" r="2" fill="#FFD700" opacity="0.6" />
-      <circle cx="68" cy="32" r="2" fill="#FFD700" opacity="0.6" />
-      <circle cx="45" cy="42" r="1.5" fill="#FFD700" opacity="0.4" />
-      <circle cx="75" cy="42" r="1.5" fill="#FFD700" opacity="0.4" />
+      <circle cx="52" cy="32" r="2" fill="#FFD700" opacity="0.6" className="so-dot1" />
+      <circle cx="68" cy="32" r="2" fill="#FFD700" opacity="0.6" className="so-dot2" />
+      <circle cx="45" cy="42" r="1.5" fill="#FFD700" opacity="0.4" className="so-dot3" />
+      <circle cx="75" cy="42" r="1.5" fill="#FFD700" opacity="0.4" className="so-dot4" />
       {/* Steam from left cup */}
-      <path d="M32 46 Q30 36 34 28 Q36 22 33 14" stroke="#b898c8" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" />
-      <path d="M42 44 Q40 34 44 26 Q46 20 43 12" stroke="#b898c8" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" />
+      <path d="M32 46 Q30 36 34 28 Q36 22 33 14" stroke="#b898c8" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" className="so-steam1" />
+      <path d="M42 44 Q40 34 44 26 Q46 20 43 12" stroke="#b898c8" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" className="so-steam2" />
       {/* Steam from right cup */}
-      <path d="M78 44 Q76 34 80 26 Q82 20 79 12" stroke="#b898c8" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" />
-      <path d="M88 46 Q86 36 90 28 Q92 22 89 14" stroke="#b898c8" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" />
+      <path d="M78 44 Q76 34 80 26 Q82 20 79 12" stroke="#b898c8" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" className="so-steam3" />
+      <path d="M88 46 Q86 36 90 28 Q92 22 89 14" stroke="#b898c8" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" className="so-steam4" />
       {/* Chat bubbles */}
-      <g opacity="0.6">
+      <g opacity="0.6" className="so-bubbleL">
         <rect x="8" y="35" width="18" height="12" rx="6" fill="#e4d8ec" />
         <polygon points="18,47 22,47 18,52" fill="#e4d8ec" />
         <circle cx="13" cy="41" r="1.2" fill="#a888b5" />
         <circle cx="17" cy="41" r="1.2" fill="#a888b5" />
         <circle cx="21" cy="41" r="1.2" fill="#a888b5" />
       </g>
-      <g opacity="0.5">
+      <g opacity="0.5" className="so-bubbleR">
         <rect x="108" y="40" width="16" height="10" rx="5" fill="#e4d8ec" />
         <polygon points="116,50 112,50 116,54" fill="#e4d8ec" />
         <circle cx="112.5" cy="45" r="1" fill="#a888b5" />
@@ -431,6 +496,21 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
   ),
   artisan: (size) => (
     <svg width={size} height={size} viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @keyframes a-drip { 0% { transform: translateY(0); opacity: 0.8; } 60% { opacity: 0.6; } 100% { transform: translateY(12px); opacity: 0; } }
+        @keyframes a-drip2 { 0% { transform: translateY(0); opacity: 0.5; } 100% { transform: translateY(10px); opacity: 0; } }
+        @keyframes a-steam { 0% { transform: translateY(0); opacity: 0.3; } 100% { transform: translateY(-8px); opacity: 0; } }
+        @keyframes a-timer { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes a-pour { 0%,100% { opacity: 0.6; } 50% { opacity: 0.3; } }
+        .a-drip1 { animation: a-drip 2s ease-in infinite; }
+        .a-drip2 { animation: a-drip2 2s ease-in infinite 0.8s; }
+        .a-drip3 { animation: a-drip2 2s ease-in infinite 1.4s; }
+        .a-steam1 { animation: a-steam 2.5s ease-out infinite; }
+        .a-steam2 { animation: a-steam 2.5s ease-out infinite 0.8s; }
+        .a-steam3 { animation: a-steam 2.5s ease-out infinite 1.6s; }
+        .a-timer { animation: a-timer 8s linear infinite; transform-origin: 108px 80px; }
+        .a-pour { animation: a-pour 2s ease-in-out infinite; }
+      `}</style>
       <defs>
         <linearGradient id="artDripperGrad" x1="32" y1="22" x2="88" y2="62" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#e0edda" />
@@ -515,16 +595,16 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
       <path d="M28 8 Q26 12 30 14 L36 18" stroke="#b0b0b0" strokeWidth="2.5" fill="none" strokeLinecap="round" />
       <path d="M20 4 Q18 6 22 10 L28 8" stroke="#c0c0c0" strokeWidth="3" fill="none" strokeLinecap="round" />
       {/* Water stream */}
-      <path d="M36 18 Q38 20 40 22" stroke="#a8d4f0" strokeWidth="1.5" fill="none" opacity="0.6" strokeLinecap="round" />
-      <ellipse cx="42" cy="24" rx="3" ry="1" fill="#a8d4f0" opacity="0.3" />
+      <path d="M36 18 Q38 20 40 22" stroke="#a8d4f0" strokeWidth="1.5" fill="none" opacity="0.6" strokeLinecap="round" className="a-pour" />
+      <ellipse cx="42" cy="24" rx="3" ry="1" fill="#a8d4f0" opacity="0.3" className="a-pour" />
       {/* Coffee drip stream */}
       <path d="M60 66 L60 72" stroke="#6b4a3a" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
-      <ellipse cx="60" cy="74" rx="2" ry="3" fill="#6b4a3a" opacity="0.7" filter="url(#dripGlow)" />
-      <ellipse cx="60" cy="80" rx="1.5" ry="2" fill="#6b4a3a" opacity="0.4" />
+      <ellipse cx="60" cy="74" rx="2" ry="3" fill="#6b4a3a" opacity="0.7" filter="url(#dripGlow)" className="a-drip1" />
+      <ellipse cx="60" cy="80" rx="1.5" ry="2" fill="#6b4a3a" opacity="0.4" className="a-drip2" />
       {/* Steam wisps - more detailed */}
-      <path d="M50 14 Q48 6 52 0" stroke="#8faa80" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" />
-      <path d="M60 12 Q57 4 62 -2" stroke="#8faa80" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" />
-      <path d="M70 14 Q68 6 72 0" stroke="#8faa80" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" />
+      <path d="M50 14 Q48 6 52 0" stroke="#8faa80" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" className="a-steam1" />
+      <path d="M60 12 Q57 4 62 -2" stroke="#8faa80" strokeWidth="2" fill="none" opacity="0.35" strokeLinecap="round" className="a-steam2" />
+      <path d="M70 14 Q68 6 72 0" stroke="#8faa80" strokeWidth="1.5" fill="none" opacity="0.3" strokeLinecap="round" className="a-steam3" />
       {/* Scattered coffee beans */}
       <g transform="rotate(-25 18 120)">
         <ellipse cx="18" cy="120" rx="4.5" ry="3" fill="#5c3a1e" />
@@ -542,7 +622,7 @@ const personalityIllustrations: Record<Personality, (size: number) => React.Reac
       <circle cx="108" cy="80" r="8" fill="none" stroke="#8faa80" strokeWidth="1.5" opacity="0.4" />
       <circle cx="108" cy="80" r="6.5" fill="#f2f9ee" opacity="0.3" />
       <line x1="108" y1="76" x2="108" y2="80" stroke="#8faa80" strokeWidth="1" opacity="0.5" strokeLinecap="round" />
-      <line x1="108" y1="80" x2="111" y2="82" stroke="#8faa80" strokeWidth="1" opacity="0.5" strokeLinecap="round" />
+      <line x1="108" y1="80" x2="111" y2="82" stroke="#8faa80" strokeWidth="1" opacity="0.5" strokeLinecap="round" className="a-timer" />
       <line x1="108" y1="72" x2="108" y2="70" stroke="#8faa80" strokeWidth="1" opacity="0.4" strokeLinecap="round" />
     </svg>
   ),
