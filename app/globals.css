@@ -1,26 +1,197 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fdf6ee;
+  --foreground: #3d2c1e;
+  --card-bg: #fffaf5;
+  --accent-gold: #c8a455;
+  --accent-rose: #d4848c;
+  --accent-lavender: #a888b5;
+  --accent-sage: #8faa80;
+  --warm-brown: #6b4c3b;
+  --soft-cream: #f5ead6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: var(--font-playfair);
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #fdf6ee 0%, #f5ead6 30%, #f0dfd0 60%, #fdf6ee 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* Warm gold progress bar fill */
+.progress-fill {
+  background: linear-gradient(90deg, #c8a455, #dbb96a);
+  transition: width 0.5s ease-in-out;
+}
+
+/* Answer button styles */
+.answer-btn {
+  background: var(--card-bg);
+  border: 2px solid #e8dcc8;
+  border-radius: 16px;
+  padding: 16px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.answer-btn:hover {
+  border-color: var(--accent-gold);
+  background: linear-gradient(135deg, #fff9f0, #fef3e2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(200, 164, 85, 0.2);
+}
+
+.answer-btn:active {
+  transform: translateY(0);
+}
+
+/* Quiz card */
+.quiz-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(109, 76, 59, 0.08), 0 2px 8px rgba(109, 76, 59, 0.04);
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Result personality card */
+.result-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(109, 76, 59, 0.06);
+  border-left: 4px solid var(--accent-gold);
+}
+
+.result-card:nth-child(2) {
+  border-left-color: var(--accent-rose);
+}
+
+.result-card:nth-child(3) {
+  border-left-color: var(--accent-lavender);
+}
+
+.result-card:nth-child(4) {
+  border-left-color: var(--accent-sage);
+}
+
+/* Percentage bar */
+.pct-bar-bg {
+  background: #efe5d5;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.pct-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 1s ease-out;
+}
+
+/* Fade-in animation for screens */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Start button */
+.start-btn {
+  background: linear-gradient(135deg, #c8a455, #b8944a);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 16px 48px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(200, 164, 85, 0.3);
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(200, 164, 85, 0.4);
+  background: linear-gradient(135deg, #d4b060, #c8a455);
+}
+
+.start-btn:active {
+  transform: translateY(0);
+}
+
+/* Restart button */
+.restart-btn {
+  background: transparent;
+  border: 2px solid var(--accent-gold);
+  color: var(--warm-brown);
+  border-radius: 999px;
+  padding: 12px 36px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.restart-btn:hover {
+  background: var(--accent-gold);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Top result hero card */
+.top-result-card {
+  border-radius: 24px;
+  padding: 40px 32px 32px;
+  box-shadow: 0 8px 32px rgba(109, 76, 59, 0.1);
+}
+
+/* Bounce animation for top result emoji */
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.3); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.result-bounce {
+  animation: bounceIn 0.6s ease-out forwards;
+}
+
+/* Staggered slide-in for result cards */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.result-stagger {
+  opacity: 0;
+  animation: slideInLeft 0.4s ease-out forwards;
 }
